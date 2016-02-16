@@ -11,21 +11,34 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.engine('handlebars',expressHanldlebars({defaultLayout:'main'}));
 app.set('view engine','handlebars');
 
+app.use(express.static('public'));
+
 app.get('/',function(req,res){
-  console.log("hi");
-  var string = 'SELECT id,burger_name FROM burgers';
-    connection.query(string, function(err, result) {
-      if (err) {
-        throw err;
-      }
-        console.log(result);
-        res.render('index',result);
+
+    burger.findAllBurgers(0,function(burgers_data){
+      burger.findAllBurgers(1,function(devoured_data) {
+        res.render('/index',{burgers_data:burgers_data,devoured_data:devoured_data});
       });
-    // burger.findAllBurgers(function(burgers_data){
-    //   console.log("Hi got here");
-    //   res.render('index',{burgers_data:burgers_data});
-    // })
+    });
   });
+
+app.post('/save',function(req,res){
+
+    burger.addOneBurger(req.body.newBurger,function(result){
+      res.redirect('/');
+    })
+  });
+
+app.post('/update/:id',function(req,res){
+  
+  burger.updateOneBurger(req.params.id, function(result){
+    res.redirect('/');
+  });  
+});
+
+app.get('/*',function(req,res){
+  res.redirect('/');
+});
 
 app.listen(PORT,function(){
   console.log("Application is running on PORT %s", PORT);
