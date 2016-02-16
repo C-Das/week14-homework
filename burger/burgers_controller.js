@@ -11,36 +11,34 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.engine('handlebars',expressHanldlebars({defaultLayout:'main'}));
 app.set('view engine','handlebars');
 
+app.use(express.static('public'));
+
 app.get('/',function(req,res){
-  var string = 'SELECT id,burger_name FROM burgers';
-    connection.query(string, function(err, results) {
-      if (err) {
-        throw err;
-      }
-        var data = {
-          burgers_data :results
-        }
-        res.render('index',data);
+
+    burger.findAllBurgers(0,function(burgers_data){
+      burger.findAllBurgers(1,function(devoured_data) {
+        res.render('index',{burgers_data:burgers_data,devoured_data:devoured_data});
       });
-    // burger.findAllBurgers(function(burgers_data){
-    //   console.log("Hi got here");
-    //   res.render('index',{burgers_data:burgers_data});
-    // })
+    });
   });
 
 app.post('/save',function(req,res){
-  var string = "INSERT INTO burgers(burger_name) VALUES('"+req.body.newBurger+"');"
-    connection.query(string, function(err, results) {
-      if (err) {
-        throw err;
-      }
-        res.redirect('/');
-      });
-    // burger.findAllBurgers(function(burgers_data){
-    //   console.log("Hi got here");
-    //   res.render('index',{burgers_data:burgers_data});
-    // })
+
+    burger.addOneBurger(req.body.newBurger,function(result){
+      res.redirect('/');
+    })
   });
+
+app.post('/update/:id',function(req,res){
+  
+  burger.updateOneBurger(req.params.id, function(result){
+    res.redirect('/');
+  });  
+});
+
+app.get('/*',function(req,res){
+  res.redirect('/');
+});
 
 app.listen(PORT,function(){
   console.log("Application is running on PORT %s", PORT);
