@@ -1,0 +1,21 @@
+  <div id="burgerList">
+      <h1>Burger List</h1>
+      {{#each burgers_data}}
+        <form action='/update/{{id}}' method=post>
+          <pre>{{id}}. {{burger_name}} <button type="submit">Devour</button>
+          </pre>
+        </form>
+      {{/each}}
+    </div>
+
+    <form action='/save' method=post>
+      <textarea name="newBurger" rows="8" cols="20"></textarea>
+      <button type="submit">Enter the Burger !! </button>
+    </form>
+
+    <div id="devourList">
+      <h1>Devour List</h1>
+      {{#each devoured_data}}
+        <pre>{{id}}. {{burger_name}}</pre>
+      {{/each}}
+  </div>
