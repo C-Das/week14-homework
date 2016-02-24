@@ -15,5 +15,13 @@
     "mysql": "^2.10.2"
   },
   "devDependencies": {},
-  "description": ""
+  "description": "* You will create a burger logger with a homemade ORM (yum!), MySQL, Node, Express, handlebars using the MVC design pattern.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C-Das/week14-homework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/C-Das/week14-homework/issues"
+  },
+  "homepage": "https://github.com/C-Das/week14-homework#readme"
 }
