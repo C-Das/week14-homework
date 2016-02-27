@@ -2,7 +2,7 @@ var burger = require('./models/burger.js');
 var connection = require('./config/connection.js');
 var express = require ('express');
 var app = express();
-var PORT = process.env.NODE_ENV || 8080;
+var PORT = process.env.PORT || 8080;
 var expressHanldlebars = require ('express-handlebars');
 var bodyParser = require('body-parser');
 
@@ -30,10 +30,10 @@ app.post('/save',function(req,res){
   });
 
 app.post('/update/:id',function(req,res){
-  
+
   burger.updateOneBurger(req.params.id, function(result){
     res.redirect('/');
-  });  
+  });
 });
 
 app.get('/*',function(req,res){
